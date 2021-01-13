@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static "css/chat.css" %}">
+<div class="container">
+<div class="row bootstrap snippets bootdeys">
+    <div class="col-md-8 col-sm-12">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <p>Write a message to {{ username }}</p>
+                </div>
+                <div class="panel-body">
+                    {% if status != "Good" %}
+                        <p style="color: red">{{ status }}</p>
+                    {% else %}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <textarea class="form-control" placeholder="write a message..." rows="3" name="message"></textarea>
+                            <br>
+
+                            <button type="submit" class="btn btn-info pull-right">Send</button>
+
+                            <div class="clearfix"></div>
+                            <hr>
+                        </form>
+                    {% endif %}
+                    <ul class="list-group">
+
+
+                {% for letter in messages %}
+
+                    <li href="#" class="list-group-item list-group-item-action" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                          <h5 class="mb-1">{{ letter.from_user.username }}</h5>
+                          <small>{{ letter.created }}</small>
+                        </div>
+                    <p class="mb-1">{{ letter.text_message }}</p>
+                  </li>
+                {% endfor %}
+
+
+        </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% if status == "You blocked this user"%}
+    <a class="btn btn-success" href="/unblock/{{ username }}">Unblock</a>
+
+
+{% elif status == "Good" %}
+    <a class="btn btn-danger" href="/block/{{ username }}">Block this user</a>
+
+{% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+{% block content %}
+    <div class="container">
+        <ul class="list-group">
+
+            {% for letter in messages %}
+
+                <a href="/write/{{ letter.from_user }}" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{{ letter.from_user.username }}</h5>
+                      <small>{{ letter.created }}</small>
+                    </div>
+                <p class="mb-1">{{ letter.text_message }}</p>
+              </a>
+            {% endfor %}
+
+
+        </ul>
+    </div>
+
+
+{% endblock %}

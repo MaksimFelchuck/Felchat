@@ -1,0 +1,64 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+                        <form class="row g-3" method="get">
+                            {% csrf_token %}
+                            {% for foo in user_filter.form %}
+                                <div class="col-auto">
+                                {{ foo }}
+                                </div>
+
+                            {% endfor %}
+
+
+                            <button class="btn btn-primary" type="submit">Search</button>
+
+                        </form>
+
+</div>
+    <div class="container">
+        <ul class="list-group">
+            {% if not users %}
+                <p style="color: red">User with specified nickname was not found</p>
+            {% endif %}
+            {% for person in users %}
+
+                <a href="write/{{ person.username }}" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{{ person.username }}</h5>
+
+                        {% for black in users_black_list %}
+
+                            {% if black.blocked_user.username == person.username %}
+
+                                <small style="color: red">You blocked this user</small>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        {% for black in user_in_black_list %}
+
+
+
+                            {% if person.username == black.user.username %}
+                                <small style="color: red">You're been blocked by this user</small>
+
+                            {% endif %}
+                        {% endfor %}
+
+                      {% comment %}<small>3 days ago</small>{% endcomment %}
+                    </div>
+                <p class="mb-1"></p>
+
+              </a>
+            {% endfor %}
+
+
+        </ul>
+    </div>
+
+
+
+{% endblock %}

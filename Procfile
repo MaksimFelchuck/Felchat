@@ -1,0 +1,1 @@
+web: gunicorn Felchat_Heroku.wsgi --log-file -
